@@ -20,3 +20,5 @@ numberPages = []
 
 # How many documents have a missing number of pages ?
 # There is a document with zero page. Why ?
+
+f.close()
