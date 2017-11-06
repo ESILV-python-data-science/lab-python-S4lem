@@ -1,4 +1,6 @@
 import pprint
+from datetime import datetime
+
 def question1_1():
     # Open the csv file, read all the lines
 
@@ -42,7 +44,7 @@ def question2_1():
             count = count + 1
             summ = summ + numberPage
         except ValueError:
-            print("String catched")
+            pass
 
     average = summ / count    
     print("minimum : %d" %minimum)
@@ -136,5 +138,46 @@ def question3_4():
     
     pprint.pprint(documentNumbers)
     f.close()
+
+def question4_1():
+    # What are the oldest and the more recent documents ?
+    f = open('jfkrelease-2017.csv', 'r')
     
-question3_4()
+    oldest = datetime.today()
+    newest = datetime.today()
+    date = datetime.now
+    for line in f:
+        lineSplitted = line.split(';')
+        try:      
+            date = datetime.strptime(lineSplitted[5], "%d/%m/%Y")
+            if date < oldest:
+                oldest = date
+            if date > newest:
+                newest = date
+        except ValueError:
+            pass
+    
+    print(oldest)
+    print(newest)            
+    f.close()
+    
+
+def question4_2():
+    #Compute the number of documents per year
+    f = open('jfkrelease-2017.csv', 'r')
+    years = {}
+    for line in f:
+        lineSplitted = line.split(';')
+        
+        try:
+            date = datetime.strptime(lineSplitted[5], "%d/%m/%Y")
+            if not date.year in years:
+                years[date.year] = 1
+            else:
+                years[date.year] += 1
+        except ValueError:
+            pass
+            
+    pprint.pprint(years)
+    f.close()
+question4_2()
