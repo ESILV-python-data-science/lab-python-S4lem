@@ -54,10 +54,11 @@ def question2_1():
     f.close()
 
     
-    # How many documents have a missing number of pages ?
     
 def question2_2():
         
+    # How many documents have a missing number of pages ?
+
     f = open('jfkrelease-2017.csv', 'r')
     countAll = 0; countmiss = 0
 
@@ -180,4 +181,6 @@ def question4_2():
             
     pprint.pprint(years)
     f.close()
-question4_2()
+
+
+question2_2()
