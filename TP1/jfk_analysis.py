@@ -1,3 +1,4 @@
+import pprint
 def question1_1():
     # Open the csv file, read all the lines
 
@@ -73,9 +74,67 @@ def question2_2():
 # The file is missing.
 
 
+def question3_1():
+    #How many types of document is there in the collection ?
+    
+    f = open('jfkrelease-2017.csv', 'r')
+    documentTypes = []
+    for line in f:
+        lineSplitted = line.split(';')
+        
+        if not lineSplitted[6] in documentTypes:
+            documentTypes.append(lineSplitted[6])
+    
+    print(len(documentTypes))
+    f.close()
 
 
+def question3_2():
+    #Compute the number of documents per document type (use a dictionaly to store the count per document type)
+    f = open('jfkrelease-2017.csv', 'r')
+    documentTypes = {}
+    for line in f:
+        lineSplitted = line.split(';')
+        
+        if not lineSplitted[6] in documentTypes:
+            documentTypes[lineSplitted[6]] = 1
+            #documentTypes.append(lineSplitted[6])
+        else:
+            documentTypes[lineSplitted[6]] = documentTypes[lineSplitted[6]] + 1
+    pprint.pprint(documentTypes)
+        
+    f.close()
+
+def question3_3():
+    #How many different agencies are involved ?
+    f = open('jfkrelease-2017.csv', 'r')
     
+    agencies = []
+    for line in f:
+        lineSplitted = line.split(';')
+
+        if not lineSplitted[4] in agencies:
+            
+            agencies.append(lineSplitted[4])
     
+    print("There are %d agencies" %len(agencies))
+    f.close()
+
+
+def question3_4():
+    #Computer the number of document per agency (use a dictionary)
+    documentNumbers = {}
+    f = open('jfkrelease-2017.csv', 'r')
     
-question2_2()
+    for line in f:
+        lineSplitted = line.split(';')
+        
+        if not lineSplitted[4] in documentNumbers:
+            documentNumbers[lineSplitted[4]] = 1
+        else:
+            documentNumbers[lineSplitted[4]] += 1
+    
+    pprint.pprint(documentNumbers)
+    f.close()
+    
+question3_4()
