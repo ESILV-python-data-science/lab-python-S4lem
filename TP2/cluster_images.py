@@ -5,6 +5,8 @@ Cluster images based on visual similarity
 C. Kermorvant - 2017
 """
 
+#Look at the different pages : how many groups of similar pages do you think there are ?
+# I think there are 3 groups of similar pages : the textes, the images, and the book covers
 
 import argparse
 import glob
@@ -88,7 +90,9 @@ def copy_to_dir(images, clusters, cluster_dir):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract features, cluster images and move them to a directory')
     parser.add_argument('--images-dir',required=True)
+    parser.add_argument('--number-cluster', required= True)
     parser.add_argument('--move-images')
+    
     args = parser.parse_args()
 
 
@@ -116,7 +120,8 @@ if __name__ == "__main__":
 
     # TODO : Extract the feature vector on all the pages found and store the feature
     # vectors in  data
-    for i in images_path_list:
+    
+    for i in tqdm(images_path_list):
         image = Image.open(i)
         data.append(extract_features(image))
     
@@ -131,7 +136,7 @@ if __name__ == "__main__":
 
     # TODO : run the K-Means clusering and call copy_to_dir to copy the image
     # in the directory corresponding to its cluster
+    kmeans = KMeans(n_clusters= int(args.number_cluster), random_state=0).fit(X)
+    copy_to_dir(images_path_list, kmeans.labels_, "clusters/")
     
-
-test = glob.glob('images/*.jpg')
-print(test[0])
+    
