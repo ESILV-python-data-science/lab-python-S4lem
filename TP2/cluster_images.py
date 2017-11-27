@@ -91,8 +91,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract features, cluster images and move them to a directory')
     parser.add_argument('--images-dir',required=True)
     parser.add_argument('--number-cluster', required= True)
-    parser.add_argument('--move-images')
-    
+    parser.add_argument('--move-images', required= True)
+
     args = parser.parse_args()
 
 
@@ -137,6 +137,6 @@ if __name__ == "__main__":
     # TODO : run the K-Means clusering and call copy_to_dir to copy the image
     # in the directory corresponding to its cluster
     kmeans = KMeans(n_clusters= int(args.number_cluster), random_state=0).fit(X)
-    copy_to_dir(images_path_list, kmeans.labels_, "clusters/")
+    copy_to_dir(images_path_list, kmeans.labels_, args.move_images)
     
     
