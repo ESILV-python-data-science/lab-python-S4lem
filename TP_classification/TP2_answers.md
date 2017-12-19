@@ -15,6 +15,11 @@ With validation set :
 | 6 | 0.9349 |
 | 7 | 0.9348 |
 
+Markdown | Less | Pretty
+--- | --- | ---
+*Still* | `renders` | **nicely**
+
+1 | 2 | 3
 k = 1 : 1
 k = 2 : 0.952
 k = 3 : 0.94725
