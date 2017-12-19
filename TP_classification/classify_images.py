@@ -74,7 +74,8 @@ if __name__ == "__main__":
 
     if args.load_features:
         # read features from to_pickle
-        pass
+        df_features = pd.read_pickle(args.load_features)
+        
     else:
 
         df = pd.read_csv(args.images_list, names= ["filename", "class"], header= None)
@@ -110,6 +111,9 @@ if __name__ == "__main__":
     # save features
     if args.save_features:
         # convert X to dataframe with pd.DataFrame and save to pickle with to_pickle
+        df_features = pd.DataFrame(data = X)
+        df_features.to_pickle("features")
+        
         logger.info('Saved {} features and class to {}'.format(df_features.shape,args.save_features))
 
 
