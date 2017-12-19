@@ -5,6 +5,7 @@ Without validation set :
 For k = 1 : 0.92516
 
 With validation set : 
+
 k | Score
 --- | ---
 1 | 1
