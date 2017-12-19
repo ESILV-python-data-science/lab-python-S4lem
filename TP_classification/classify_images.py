@@ -17,6 +17,7 @@ from PIL import Image, ImageFilter
 from sklearn.cluster import KMeans
 from sklearn import svm, metrics, neighbors
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
 import numpy as np
 import pandas as pd
@@ -66,8 +67,12 @@ if __name__ == "__main__":
     input_group.add_argument('--load-features',help='read features and class from pickle file')
     parser.add_argument('--save-features',help='save features in pickle format')
     parser.add_argument('--limit-samples',type=int, help='limit the number of samples to consider for training')
+    parser.add_argument('--learning-curve',action='store_true', help='study the impact of a growing training set on the accuracy')
+
     classifier_group = parser.add_mutually_exclusive_group(required=True)
     classifier_group.add_argument('--nearest-neighbors',type=int)
+    classifier_group.add_argument('--logistic-regression', action= 'store_true')
+
     classifier_group.add_argument('--features-only', action='store_true', help='only extract features, do not train classifiers')
     args = parser.parse_args()
 
@@ -104,7 +109,6 @@ if __name__ == "__main__":
             sys.exit(1)
 
 
-
         # convert to np.array
         X = np.array(data)
 
@@ -119,13 +123,18 @@ if __name__ == "__main__":
         df_features.to_pickle("features")
         
         logger.info('Saved {} features and class to {}'.format(df_features.shape,args.save_features))
-        
+    
     if args.features_only:
         logger.info('No classifier to train, exit')
         sys.exit()
 
+    
     # Train classifier
     logger.info("Training Classifier")
+    
+
+    if args.limit_samples:
+        df_features = df_features.sample(n = args.limit_samples)
 
     # Use train_test_split to create train/test split
     y =df_features["class"]
@@ -133,28 +142,53 @@ if __name__ == "__main__":
     X = df_features
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+    
 
+    
     logger.info("Train set size is {}".format(X_train.shape))
     logger.info("Test set size is {}".format(X_test.shape))
 
     if args.nearest_neighbors:
         # create KNN classifier with args.nearest_neighbors as a parameter
+        clf = neighbors.KNeighborsClassifier(n_neighbors=args.nearest_neighbors)
+        
+        X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, test_size=0.25)
+
         logger.info('Use kNN classifier with k= {}'.format(args.nearest_neighbors))
+        
+        # Do Training@
+        t0 = time.time()
+        clf.fit(X_valid, y_valid) 
+        logger.info("Training done in %0.3fs" % (time.time() - t0))
+        
+        # Do testing on validation set
+        logger.info("Testing Classifier on validation set")
+        t0 = time.time()
+        predicted = clf.predict(X_valid)
+        print(metrics.accuracy_score(y_valid, predicted))
+        print(metrics.classification_report(y_valid, predicted))
+        logger.info("Testing done in %0.3fs" % (time.time() - t0))
+        
+    elif args.logistic_regression:
+        clf = LogisticRegression()
+        logger.info('Using logistic regression...'.format(args.logistic_regression))
+        
+        # Do Training@
+        t0 = time.time()
+        clf.fit(X_train, y_train) 
+        logger.info("Training done in %0.3fs" % (time.time() - t0))
+    
+        # Do testing
+        logger.info("Testing Classifier")
+        t0 = time.time()
+        predicted = clf.predict(X_test)
+        
+        # Print score produced by metrics.classification_report and metrics.accuracy_score
+        print(metrics.accuracy_score(y_test, predicted))
+        print(metrics.classification_report(y_test, predicted))
+        logger.info("Testing done in %0.3fs" % (time.time() - t0))
+
     else:
         logger.error('No classifier specified')
         sys.exit()
 
-    # Do Training@
-    t0 = time.time()
-    neigh = neighbors.KNeighborsClassifier(n_neighbors=args.nearest_neighbors)
-    neigh.fit(X_train, y_train) 
-    logger.info("Training done in %0.3fs" % (time.time() - t0))
-
-    # Do testing
-    logger.info("Testing Classifier")
-    t0 = time.time()
-    predicted = neigh.predict(X_test)
-    # Print score produced by metrics.classification_report and metrics.accuracy_score
-    print(metrics.accuracy_score(y_test, predicted))
-    print(metrics.classification_report(y_test, predicted))
-    logger.info("Testing  done in %0.3fs" % (time.time() - t0))
