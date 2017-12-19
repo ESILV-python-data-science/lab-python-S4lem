@@ -5,20 +5,20 @@ Without validation set :
 For k = 1 : 0.92516
 
 With validation set : 
- k | Score 
- --- | --- 
- 1 | 1 
- 2 | 0.952 
- 3 | 0.94725 
- 4 | 0.94375 
- 5 | 0.9385 
- 6 | 0.9349 
- 7 | 0.9348 
+k | Score
+--- | ---
+1 | 1
+2 | 0.952
+3 | 0.94725
+4 | 0.94375
+5 | 0.9385
+6 | 0.9349
+7 | 0.9348
+
 
 Markdown | Less | Pretty
 --- | --- | ---
 *Still* | `renders` | **nicely**
-
 1 | 2 | 3
 k = 1 : 1
 k = 2 : 0.952
