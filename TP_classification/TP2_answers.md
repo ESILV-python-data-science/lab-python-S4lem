@@ -1,6 +1,15 @@
 # Answers for Digit classification TP
-
-
+## Question 1
+Done.
+***
+## Question 2
+Done.
+***
+## Question 3
+Done.
+***
+## Question 4
+Done.
 ***
 ## Question 5
 Without validation set :
@@ -22,6 +31,5 @@ The best score is for k = 1.
 
 
 ***
-
 ## Question 6
 Logistic regression : 0.949333333333
