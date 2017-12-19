@@ -6,7 +6,7 @@ For k = 1 : 0.92516
 
 With validation set : 
 | Value of k | Score |
-| --- |:---:|
+| --- | --- |
 | 1 | 1 |
 | 2 | 0.952 |
 | 3 | 0.94725 |
