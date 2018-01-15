@@ -1,3 +1,4 @@
+
 # TP Data Science - Python
 
 ## Lancer le code
@@ -27,7 +28,7 @@ J'ai choisi d'éxecuter une regression logistique.
 0.858547241944
 
 
- - | precision |   recall  | f1-score |  support
+ type | precision |   recall  | f1-score |  support
 --- | --- | --- | --- | ---
 calendrier  |     0.69  |    0.60   |   0.65     |  124
 miniature  |     0.14  |    0.14 |     0.14   |      7
